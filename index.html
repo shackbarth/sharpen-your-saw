@@ -51,14 +51,15 @@
 fs.readdir(path, function(err, items) {
   console.log(items);
 });
+
 // https://code-maven.com/list-content-of-directory-with-nodejs
 
             </code></pre>
 					</section>
 
           <section>
-  					<h3>Pyramid of Doom</h3>
-  					<pre><code class="hljs">
+  					<h3>Problem with Callbacks: Pyramid of Doom</h3>
+  					<pre><code class="hljs" style="font-size:14px;line-height:16px;">
 fs.readdir(source, function (err, files) {
   if (err) {
     console.log('Error finding files: ' + err)
@@ -83,6 +84,7 @@ fs.readdir(source, function (err, files) {
     })
   }
 })
+
 // http://callbackhell.com/
             </code></pre>
   				</section>
@@ -99,6 +101,7 @@ readFile()
   .then(readAnotherFile)
   .then(doSomethingElse)
   .then(...)
+
 // https://strongloop.com/strongblog/promises-in-node-js-an-alternative-to-callbacks/
             </code></pre>
 					</section>
@@ -128,6 +131,37 @@ doSomething().then(doSomethingElse);
             have to be functions that return promises.
           </section>
         </section>
+
+				<section>
+  				<section>
+  					<h3>Present Day: The Actual Subject of this Talk</h3>
+          </section>
+
+  				<section>
+  					<h3>Present Day: The Actual Subject of this Talk</h3>
+            <div class="fragment">github.com/tj/co</div>
+          </section>
+
+
+        </section>
+
+				<section>
+  				<section>
+  					<h3>Futuristic Era: Async/Await</h3>
+  					<pre><code class="hljs">
+const fs = require('mz/fs')
+
+async function doSomething () {
+  if (await fs.exists(__filename)) // do something
+}
+
+// https://github.com/normalize/mz
+            </code></pre>
+          </section>
+        </section>
+
+
+
 			</div>
 
 		</div>
