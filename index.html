@@ -46,7 +46,7 @@
 
 				<section>
   				<section>
-  					<h3>Callbacks</h3>
+  					<h3>Paleolithic Era: Callbacks</h3>
   					<pre><code class="hljs">
 fs.readdir(path, function(err, items) {
   console.log(items);
@@ -86,6 +86,47 @@ fs.readdir(source, function (err, files) {
 // http://callbackhell.com/
             </code></pre>
   				</section>
+        </section>
+				<section>
+  				<section>
+  					<h3>Mesolithic Era: Promises</h3>
+  					<pre><code class="hljs">
+var promise = doSomethingAync()
+promise.then(onFulfilled, onRejected)
+            </code></pre>
+  					<pre><code class="hljs">
+readFile()
+  .then(readAnotherFile)
+  .then(doSomethingElse)
+  .then(...)
+// https://strongloop.com/strongblog/promises-in-node-js-an-alternative-to-callbacks/
+            </code></pre>
+					</section>
+  				<section>
+  					<h3>Problem 1 with Promises:</h3>
+  					<pre><code class="hljs">
+doSomething().then(function () {
+  return doSomethingElse();
+});
+
+doSomething().then(function () {
+  doSomethingElse();
+});
+
+doSomething().then(doSomethingElse());
+
+doSomething().then(doSomethingElse);
+
+// https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html
+            </code></pre>
+					</section>
+
+  				<section>
+  					<h3>Problem 2 with Promises:</h3>
+
+            The <code class="hljs" style="display: inline">doSomethingElse</code> functions
+            have to be functions that return promises.
+          </section>
         </section>
 			</div>
 
