@@ -29,8 +29,36 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h4>Pyramid of Doom</h4>
-					<pre><code class="hljs">
+					<h2>Sharpen Your Saw (4)</h2>
+          <ol>
+            <li class="fragment">The Exposition</li>
+            <li class="fragment">The Challenge</li>
+            <li class="fragment">Show and Tell</li>
+          </ol>
+        </section>
+
+				<section>
+					<h3>Async/Await is Coming</h3>
+          <div class="fragment">Node 8 (April 2017, LTS October 2017)</div>
+          <div class="fragment">Everyone is very excited</div>
+          <!-- poll audience -->
+        </section>
+
+				<section>
+  				<section>
+  					<h3>Callbacks</h3>
+  					<pre><code class="hljs">
+fs.readdir(path, function(err, items) {
+  console.log(items);
+});
+// https://code-maven.com/list-content-of-directory-with-nodejs
+
+            </code></pre>
+					</section>
+
+          <section>
+  					<h3>Pyramid of Doom</h3>
+  					<pre><code class="hljs">
 fs.readdir(source, function (err, files) {
   if (err) {
     console.log('Error finding files: ' + err)
@@ -56,31 +84,9 @@ fs.readdir(source, function (err, files) {
   }
 })
 // http://callbackhell.com/
-          </code></pre>
-				</section>
-
-				<section>
-					<section id="fragments">
-						<h2>Fragments</h2>
-						<p>Hit the next arrow...</p>
-						<p class="fragment">... to step through ...</p>
-						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
-
-						<aside class="notes">
-							This slide has fragments which are also stepped through in the notes window.
-						</aside>
-					</section>
-					<section>
-						<h2>Fragment Styles</h2>
-						<p>There's different types of fragments, like:</p>
-						<p class="fragment grow">grow</p>
-						<p class="fragment shrink">shrink</p>
-						<p class="fragment fade-out">fade-out</p>
-						<p class="fragment fade-up">fade-up (also down, left and right!)</p>
-						<p class="fragment current-visible">current-visible</p>
-						<p>Highlight <span class="fragment highlight-red">red</span> <span class="fragment highlight-blue">blue</span> <span class="fragment highlight-green">green</span></p>
-					</section>
-				</section>
+            </code></pre>
+  				</section>
+        </section>
 			</div>
 
 		</div>
