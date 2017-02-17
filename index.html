@@ -31,7 +31,7 @@
 				<section>
 					<h2>Sharpen Your Saw (4)</h2>
           <ol>
-            <li class="fragment">The Exposition</li>
+            <li class="fragment">The Presentation</li>
             <li class="fragment">The Challenge</li>
             <li class="fragment">Show and Tell</li>
           </ol>
@@ -142,7 +142,33 @@ doSomething().then(doSomethingElse);
             <div class="fragment">github.com/tj/co</div>
           </section>
 
+          <section>
+            <h3>Co works just like Async/Await</h3>
+            <pre><code class="hljs">
+co(function *(){
+  // yield any promise
+  var result = yield Promise.resolve(true);
+}).catch(onerror);
 
+// https://github.com/tj/co
+            </code></pre>
+          </section>
+          <section>
+            <h3>Parallel execution by yielding on an array</h3>
+            <pre><code class="hljs">
+co(function *(){
+  // resolve multiple promises in parallel
+  var a = Promise.resolve(1);
+  var b = Promise.resolve(2);
+  var c = Promise.resolve(3);
+  var res = yield [a, b, c];
+  console.log(res);
+  // => [1, 2, 3]
+}).catch(onerror);
+
+// https://github.com/tj/co
+            </code></pre>
+          </section>
         </section>
 
 				<section>
@@ -157,6 +183,30 @@ async function doSomething () {
 
 // https://github.com/normalize/mz
             </code></pre>
+          </section>
+
+          <section>
+            <h3>Async/Await is really nice</h3>
+            <pre><code class="hljs">
+try {
+    const response = await request(data);
+
+    if (response && response.body) {
+      const parsed = JSON.parse(response.body);
+
+      if (parsed) {
+        const isSaved = await saveData(parsed);
+      }
+    }
+} catch(err) {
+    logger.error(err);
+}
+
+// http://blog.ministryofprogramming.com/async-await-and-conditional-promises/
+            </code></pre>
+          </section>
+          <section>
+            <h3>Problem with Async/Await: It doesn't exist yet</h3>
           </section>
         </section>
 
