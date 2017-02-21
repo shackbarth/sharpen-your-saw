@@ -347,8 +347,63 @@ function* rename() {
   				</section>
 
           <section>
-  					<h3></h3>
+  					<h3>Steve Nelson</h3>
   					<pre><code class="hljs" style="font-size:14px;line-height:16px;">
+  var fs = require('fs');
+
+  if (process.argv.length <= 2) {
+      console.log("Usage: " + __filename + " path/to/directory");
+      process.exit(-1);
+  }
+
+  var path = process.argv[2];
+  var fs = require('fs');
+  var newresults = [];
+  var walk = function(dir, done) {
+
+    var results = [];
+    fs.readdir(dir, function(err, list) {
+      if (err) return done(err);
+      var i = 0;
+      (function next() {
+        var file = list[i++];
+        if (!file) return done(null, results);
+
+        var change=false;
+        if(file.split(".")[1]=='csv'){
+        change=true;
+        }
+
+        file = dir + '/' + file;
+        if (change){
+        fs.rename(file, file.split(".")[0]+".txt", function (err) {
+    if (err) throw err;
+    console.log('renamed complete');
+  });
+}
+        fs.stat(file, function(err, stat) {
+          if (stat && stat.isDirectory()) {
+            walk(file, function(err, res) {
+              results = results.concat(res);
+              next();
+            });
+          } else {
+            results.push(file);
+            next();
+          }
+        });
+      })();
+    });
+  };
+  console.log(path);
+
+  walk(path, function(err, results) {
+    if (err) throw err;
+    console.log(results);
+  });
+
+  //server.listen(8000);
+  //console.log("loaded!");
             </code></pre>
   				</section>
 
