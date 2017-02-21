@@ -221,8 +221,35 @@ try {
   					<h3>Part 3: Show and Tell</h3>
   				</section>
           <section>
-  					<h3></h3>
+  					<h3>Joseph Packard</h3>
   					<pre><code class="hljs" style="font-size:14px;line-height:16px;">
+const fs = require('mz/fs');
+
+function fixCsv(dir) {
+      return fs.readdir(dir).then(files => Promise.all(files.map(file => {
+                if (/\.csv$/.exec(file)) {
+                              return fs.rename(dir + '/' + file, dir + '/' + file.replace(/\.csv$/, '.txt'));
+                                      }
+                                          })));
+}
+
+module.exports = fixCsv;
+            </code></pre>
+  				</section>
+          <section>
+  					<h3>Travis Webb</h3>
+  					<pre><code class="hljs" style="font-size:14px;line-height:16px;">
+const dir = '.' // set dir
+const co = require('co')
+const fs = require('mz/fs')
+
+co(function *() {
+  const files = yield fs.readdir(dir)
+  for (const f of files) {
+   if (/\.csv$/.test(f)) {
+     yield fs.rename(f, f.replace(/\.csv$/, '.txt'))
+  }
+})
             </code></pre>
   				</section>
           <section>
@@ -231,8 +258,57 @@ try {
             </code></pre>
   				</section>
           <section>
-  					<h3></h3>
+  					<h3>Steve Hackbarth</h3>
   					<pre><code class="hljs" style="font-size:14px;line-height:16px;">
+const co = require("co");
+const { readdir, rename, stat } = require("mz/fs");
+const path = require("path");
+
+function unCsv (dirname) {
+  co(function *() {
+    const files = yield readdir(dirname);
+    for (file of files) {
+      if (path.extname(file) === ".csv") {
+        const oldName = path.resolve(dirname, file);
+        const newName = oldName.substring(0, oldName.length - 3) + "txt";
+        yield rename(oldName, newName);
+      }
+    }
+    console.log("success!");
+  }).catch((error) => {
+    console.error(error);
+  });
+}
+
+unCsv(path.resolve(__dirname, "my_dir"));
+            </code></pre>
+  					<h3>Steve Hackbarth</h3>
+  					<pre><code class="hljs" style="font-size:14px;line-height:16px;">
+const co = require("co");
+const { readdir, rename, stat } = require("mz/fs");
+const path = require("path");
+
+function unCsvRecursive (dirname) {
+  return new Promise((resolve, reject) => {
+    co(function *() {
+      const files = yield readdir(dirname);
+      for (file of files) {
+        const fullName = path.resolve(dirname, file);
+        const stats = yield stat(fullName);
+        if (stats.isDirectory()) {
+          yield unCsvRecursive(fullName);
+        } else if (path.extname(file) === ".csv") {
+          const newName = fullName.substring(0, fullName.length - 3) + "txt";
+          yield rename(fullName, newName);
+        }
+      }
+      resolve();
+    }).catch(reject);
+  });
+}
+
+unCsvRecursive(path.resolve(__dirname, "my_dir")).then(console.log, console.error);
+            
             </code></pre>
   				</section>
         </section>
