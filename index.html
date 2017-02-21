@@ -226,11 +226,11 @@ try {
 const fs = require('mz/fs');
 
 function fixCsv(dir) {
-      return fs.readdir(dir).then(files => Promise.all(files.map(file => {
-                if (/\.csv$/.exec(file)) {
-                              return fs.rename(dir + '/' + file, dir + '/' + file.replace(/\.csv$/, '.txt'));
-                                      }
-                                          })));
+  return fs.readdir(dir).then(files => Promise.all(files.map(file => {
+    if (/\.csv$/.exec(file)) {
+      return fs.rename(dir + '/' + file, dir + '/' + file.replace(/\.csv$/, '.txt'));
+    }
+  })));
 }
 
 module.exports = fixCsv;
@@ -252,11 +252,114 @@ co(function *() {
 })
             </code></pre>
   				</section>
+
+
+          <section>
+  					<h3>Joseph Packard</h3>
+  					<pre><code class="hljs" style="font-size:14px;line-height:16px;">
+const fs = require('mz/fs');
+
+function fixCsv(dir) {
+    return fs.readdir(dir).then(files => Promise.all(files.map(file => {
+        let fileFull = dir + '/' + file;
+        fs.stat(fileFull).then(s => {
+            if (s.isDirectory()) {
+                return fixCsv(fileFull);
+            } else if (/\.csv$/.exec(file)) {
+                return fs.rename(dir + '/' + file, dir + '/' + file.replace(/\.csv$/, '.txt'));
+            }
+        });
+    })));
+}
+
+module.exports = fixCsv;
+
+            </code></pre>
+  				</section>
+
+
+
+
+          <section>
+  					<h3></h3>
+  					<pre><code class="hljs" style="font-size:14px;line-height:16px;">
+const fs = require('mz/fs')
+  const path = require('path')
+
+  function fixStuff (dir, fullpath = __dirname) {
+    return co(function *() {
+      const files = yield fs.readdir(path.resolve(fullpath, dir))
+
+      for (const f of files) {
+        if (yield fs.stat(f).isDirectory()) {
+          return fixStuff(f, fullpath)
+        }
+        else {
+          if (/\.csv$/.test(f)) {
+            yield fs.rename(f, f.replace(/\.csv$/, '.txt'))
+          }
+        }
+      }
+    })
+}
+            </code></pre>
+  				</section>
+
+          <section>
+  					<h3>Stanley Zheng</h3>
+  					<pre><code class="hljs" style="font-size:14px;line-height:16px;">
+              const co = require('co');
+var fs = require('mz/fs')
+var test_dir = "test_dir";
+
+// The challenge
+// You walk into work, csv is bullshit
+// Takes a directory and it fixes all the csv files in the directory, changes to to txt
+// Extra bonus if it recurses
+(function () {
+    console.log('hello world!')
+
+    co(main).then(function (f) {
+        console.log('foo')
+        f.forEach(fn => {
+            const newname = fn.replace('.csv', '.txt')
+            fs.renameSync('${test_dir}/{fn}', '${test_dir}/{newname}');
+        })
+    }, function (err) {
+        console.error(err.stack);
+    })
+}())
+
+function* main() {
+    var result = yield fs.readdir(test_dir)
+
+    return result.filter(a => {
+        return a.includes('.csv')
+    });
+}
+
+
+function* rename() {
+    console.log("foo")
+}
+
+            </code></pre>
+  				</section>
+
           <section>
   					<h3></h3>
   					<pre><code class="hljs" style="font-size:14px;line-height:16px;">
             </code></pre>
   				</section>
+
+          <section>
+  					<h3></h3>
+  					<pre><code class="hljs" style="font-size:14px;line-height:16px;">
+            </code></pre>
+  				</section>
+
+
+
           <section>
   					<h3>Steve Hackbarth</h3>
   					<pre><code class="hljs" style="font-size:14px;line-height:16px;">
@@ -282,6 +385,8 @@ function unCsv (dirname) {
 
 unCsv(path.resolve(__dirname, "my_dir"));
             </code></pre>
+  				</section>
+          <section>
   					<h3>Steve Hackbarth</h3>
   					<pre><code class="hljs" style="font-size:14px;line-height:16px;">
 const co = require("co");
@@ -308,7 +413,7 @@ function unCsvRecursive (dirname) {
 }
 
 unCsvRecursive(path.resolve(__dirname, "my_dir")).then(console.log, console.error);
-            
+
             </code></pre>
   				</section>
         </section>
