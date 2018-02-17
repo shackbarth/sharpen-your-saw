@@ -29,7 +29,7 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h2>Sharpen Your Saw (4)</h2>
+					<h2>Sharpen Your Saw (5)</h2>
           <ol>
             <li class="fragment">The Presentation</li>
             <li class="fragment">The Challenge</li>
@@ -38,178 +38,140 @@
         </section>
 
 				<section>
-					<h3>Async/Await is Coming</h3>
-          <div class="fragment">Node 8 (April 2017, LTS October 2017)</div>
-          <div class="fragment">Everyone is very excited</div>
+					<h3>Redux</h3>
+          <div class="fragment">Library for managing application state</div>
+          <div class="fragment">Commonly paired with React</div>
           <!-- poll audience -->
         </section>
 
 				<section>
   				<section>
-  					<h3>Paleolithic Era: Callbacks</h3>
-  					<pre><code class="hljs">
-fs.readdir(path, function(err, items) {
-  console.log(items);
-});
-
-// https://code-maven.com/list-content-of-directory-with-nodejs
-
-            </code></pre>
+  					<h3>Beginning of the slides about React</h3>
+            <div class="fragment">Initial renders are easy. Mutating UI is hard.</div>
+            <div class="fragment">Pure functions are good. Side effects are bad.</div>
 					</section>
 
           <section>
-  					<h3>Problem with Callbacks: Pyramid of Doom</h3>
-  					<pre><code class="hljs" style="font-size:14px;line-height:16px;">
-fs.readdir(source, function (err, files) {
-  if (err) {
-    console.log('Error finding files: ' + err)
-  } else {
-    files.forEach(function (filename, fileIndex) {
-      console.log(filename)
-      gm(source + filename).size(function (err, values) {
-        if (err) {
-          console.log('Error identifying file size: ' + err)
-        } else {
-          console.log(filename + ' : ' + values)
-          aspect = (values.width / values.height)
-          widths.forEach(function (width, widthIndex) {
-            height = Math.round(width / aspect)
-            console.log('resizing ' + filename + 'to ' + height + 'x' + height)
-            this.resize(width, height).write(dest + 'w' + width + '_' + filename, function(err) {
-              if (err) console.log('Error writing file: ' + err)
-            })
-          }.bind(this))
-        }
-      })
-    })
-  }
-})
-
-// http://callbackhell.com/
-            </code></pre>
+  					<h3>Write as if UI were a pure function of state</h3>
+            <div class="fragment">Lots of mutative magic under the hood</div>
   				</section>
         </section>
 				<section>
   				<section>
-  					<h3>Mesolithic Era: Promises</h3>
-  					<pre><code class="hljs">
-var promise = doSomethingAync()
-promise.then(onFulfilled, onRejected)
-            </code></pre>
-  					<pre><code class="hljs">
-readFile()
-  .then(readAnotherFile)
-  .then(doSomethingElse)
-  .then(...)
-
-// https://strongloop.com/strongblog/promises-in-node-js-an-alternative-to-callbacks/
-            </code></pre>
+  					<h3>Application state</h3>
+            <div class="fragment">What if you could manage it with pure functions?</div>
+            <div class="fragment">
+    					<pre><code class="hljs">
+(oldState, action) => newState
+              </code></pre>
+            </div>
+            <div class="fragment">
+    					<pre><code class="hljs">
+function updateState (oldState, action) {
+  return someTransformation(oldState, action.releventPayload);
+}
+              </code></pre>
+            </div>
+            <div class="fragment">
+    					<pre><code class="hljs">
+function incrementState (oldState, action) {
+  return _.assign({}, state, {
+    counter: state.counter + action.incrementBy
+  });
+}
+              </code></pre>
+            </div>
 					</section>
   				<section>
-  					<h3>Problem 1 with Promises:</h3>
+  					<h3>Before</h3>
   					<pre><code class="hljs">
-doSomething().then(function () {
-  return doSomethingElse();
-});
-
-doSomething().then(function () {
-  doSomethingElse();
-});
-
-doSomething().then(doSomethingElse());
-
-doSomething().then(doSomethingElse);
-
-// https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html
+handleChange(event) {
+  this.setState({ fieldValue: event.target.value });
+}
+            </code></pre>
+  					<h3>After</h3>
+  					<pre><code class="hljs">
+handleChange(event) {
+  this.props.dispatch({
+    type: "SET_FIELD_VALUE",
+    value: event.target.value
+  });
+}
+            </code></pre>
+  					<pre><code class="hljs">
+function fieldValueReducer(state, action) {
+  return _.assign({}, state, { fieldValue: action.value });
+}
             </code></pre>
 					</section>
-
-  				<section>
-  					<h3>Problem 2 with Promises:</h3>
-
-            The <code class="hljs" style="display: inline">doSomethingElse</code> functions
-            have to be functions that return promises.
-          </section>
         </section>
 
 				<section>
   				<section>
-  					<h3>Present Day: The Actual Subject of this Talk</h3>
-          </section>
-
-  				<section>
-  					<h3>Present Day: The Actual Subject of this Talk</h3>
-            <div class="fragment">github.com/tj/co</div>
+  					<h3>Two Gripes</h3>
+            <div class="fragment">1. Too much boilerplate</div>
+            <div class="fragment">2. Writing immutable code can be painful</div>
           </section>
 
           <section>
-            <h3>Co works just like Async/Await</h3>
+            <h3>Mutable code</h3>
             <pre><code class="hljs">
-co(function *(){
-  // yield any promise
-  var result = yield Promise.resolve(true);
-}).catch(onerror);
-
-// https://github.com/tj/co
+const oldState = { size: 2 };
+const newState = oldState;
+newState.size = 4;
+oldState === newState
+// true
             </code></pre>
           </section>
-          <section>
-            <h3>Parallel execution by yielding on an array</h3>
-            <pre><code class="hljs">
-co(function *(){
-  // resolve multiple promises in parallel
-  var a = Promise.resolve(1);
-  var b = Promise.resolve(2);
-  var c = Promise.resolve(3);
-  var res = yield [a, b, c];
-  console.log(res);
-  // => [1, 2, 3]
-}).catch(onerror);
 
-// https://github.com/tj/co
+          <section>
+            <h3>Immutable code</h3>
+            <pre><code class="hljs">
+const oldState = { size: 2 };
+const newState = _.assign({}, oldState, { size: 4 });
+oldState === newState
+// false
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>Immutable code in Redux</h3>
+            <pre><code class="hljs">
+function updateSize(state, action) {
+  return _.assign({}, state, { size: action.size });
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>Immutable code in Redux</h3>
+            <pre><code class="hljs">
+function updateSizeOfItemInArray(state, action) {
+  return _.assign({}, state, {
+    itemList: [
+      ...state.itemList.slice(0, action.index),
+      _.assign({}, state.itemList[action.index], {
+        size: action.size
+      }),
+      ...state.itemList.slice(action.index + 1)
+    ]
+  });
+}
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>Immutable code in Redux</h3>
+            <pre><code class="hljs">
+function updateSizeOfItemInArray(state, action) {
+  const newState = _.cloneDeep(state);
+  newState[action.index].size = action.size;
+  return newState;
+}
             </code></pre>
           </section>
         </section>
-
-				<section>
-  				<section>
-  					<h3>Futuristic Era: Async/Await</h3>
-  					<pre><code class="hljs">
-const fs = require('mz/fs')
-
-async function doSomething () {
-  if (await fs.exists(__filename)) // do something
-}
-
-// https://github.com/normalize/mz
-            </code></pre>
-          </section>
-
-          <section>
-            <h3>Async/Await is really nice</h3>
-            <pre><code class="hljs">
-try {
-    const response = await request(data);
-
-    if (response && response.body) {
-      const parsed = JSON.parse(response.body);
-
-      if (parsed) {
-        const isSaved = await saveData(parsed);
-      }
-    }
-} catch(err) {
-    logger.error(err);
-}
-
-// http://blog.ministryofprogramming.com/async-await-and-conditional-promises/
-            </code></pre>
-          </section>
-          <section>
-            <h3>Problem with Async/Await: It doesn't exist yet</h3>
-          </section>
-        </section>
-
+      </section>
       <section>
         <section>
 					<h3>Part 2: The Challenge</h3>
