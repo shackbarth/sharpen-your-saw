@@ -29,7 +29,7 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h2>Sharpen Your Saw (5)</h2>
+					<h2>Sharpen Your Saw v5</h2>
           <ol>
             <li class="fragment">The Presentation</li>
             <li class="fragment">The Challenge</li>
@@ -175,7 +175,7 @@ function updateSizeOfItemInArray(state, action) {
       <section>
         <section>
 					<h3>Part 2: The Challenge</h3>
-        https://shackbarth.github.io/sharpen-your-saw-4
+        https://shackbarth.github.io/sharpen-your-saw
         </section>
       </section>
       <section>
@@ -183,246 +183,26 @@ function updateSizeOfItemInArray(state, action) {
   					<h3>Part 3: Show and Tell</h3>
   				</section>
           <section>
-  					<h3>Joseph Pickard</h3>
+  					<h3></h3>
   					<pre><code class="hljs">
-const fs = require('mz/fs');
-
-function fixCsv(dir) {
-  return fs.readdir(dir).then(files => Promise.all(files.map(file => {
-    if (/\.csv$/.exec(file)) {
-      return fs.rename(dir + '/' + file, dir + '/' + file.replace(/\.csv$/, '.txt'));
-    }
-  })));
-}
-
-module.exports = fixCsv;
             </code></pre>
   				</section>
-          <section>
-  					<h3>Travis Webb</h3>
-  					<pre><code class="hljs">
-const dir = '.' // set dir
-const co = require('co')
-const fs = require('mz/fs')
-
-co(function *() {
-  const files = yield fs.readdir(dir)
-  for (const f of files) {
-   if (/\.csv$/.test(f)) {
-     yield fs.rename(f, f.replace(/\.csv$/, '.txt'))
-  }
-})
-            </code></pre>
-  				</section>
-
-
-          <section>
-  					<h3>Joseph Pickard</h3>
-  					<pre><code class="hljs">
-const fs = require('mz/fs');
-
-function fixCsv(dir) {
-    return fs.readdir(dir).then(files => Promise.all(files.map(file => {
-        let fileFull = dir + '/' + file;
-        fs.stat(fileFull).then(s => {
-            if (s.isDirectory()) {
-                return fixCsv(fileFull);
-            } else if (/\.csv$/.exec(file)) {
-                return fs.rename(dir + '/' + file, dir + '/' + file.replace(/\.csv$/, '.txt'));
-            }
-        });
-    })));
-}
-
-module.exports = fixCsv;
-
-            </code></pre>
-  				</section>
-
-
-
 
           <section>
   					<h3></h3>
   					<pre><code class="hljs">
-const fs = require('mz/fs')
-  const path = require('path')
-
-  function fixStuff (dir, fullpath = __dirname) {
-    return co(function *() {
-      const files = yield fs.readdir(path.resolve(fullpath, dir))
-
-      for (const f of files) {
-        if (yield fs.stat(f).isDirectory()) {
-          return fixStuff(f, fullpath)
-        }
-        else {
-          if (/\.csv$/.test(f)) {
-            yield fs.rename(f, f.replace(/\.csv$/, '.txt'))
-          }
-        }
-      }
-    })
-}
             </code></pre>
   				</section>
 
           <section>
-  					<h3>Stanley Zheng</h3>
+  					<h3></h3>
   					<pre><code class="hljs">
-              const co = require('co');
-var fs = require('mz/fs')
-var test_dir = "test_dir";
-
-// The challenge
-// You walk into work, csv is bullshit
-// Takes a directory and it fixes all the csv files in the directory, changes to to txt
-// Extra bonus if it recurses
-(function () {
-    console.log('hello world!')
-
-    co(main).then(function (f) {
-        console.log('foo')
-        f.forEach(fn => {
-            const newname = fn.replace('.csv', '.txt')
-            fs.renameSync('${test_dir}/{fn}', '${test_dir}/{newname}');
-        })
-    }, function (err) {
-        console.error(err.stack);
-    })
-}())
-
-function* main() {
-    var result = yield fs.readdir(test_dir)
-
-    return result.filter(a => {
-        return a.includes('.csv')
-    });
-}
-
-
-function* rename() {
-    console.log("foo")
-}
-
             </code></pre>
   				</section>
 
           <section>
-  					<h3>Steve Nelson</h3>
+  					<h3></h3>
   					<pre><code class="hljs">
-  var fs = require('fs');
-
-  if (process.argv.length <= 2) {
-      console.log("Usage: " + __filename + " path/to/directory");
-      process.exit(-1);
-  }
-
-  var path = process.argv[2];
-  var fs = require('fs');
-  var newresults = [];
-  var walk = function(dir, done) {
-
-    var results = [];
-    fs.readdir(dir, function(err, list) {
-      if (err) return done(err);
-      var i = 0;
-      (function next() {
-        var file = list[i++];
-        if (!file) return done(null, results);
-
-        var change=false;
-        if(file.split(".")[1]=='csv'){
-        change=true;
-        }
-
-        file = dir + '/' + file;
-        if (change){
-        fs.rename(file, file.split(".")[0]+".txt", function (err) {
-    if (err) throw err;
-    console.log('renamed complete');
-  });
-}
-        fs.stat(file, function(err, stat) {
-          if (stat && stat.isDirectory()) {
-            walk(file, function(err, res) {
-              results = results.concat(res);
-              next();
-            });
-          } else {
-            results.push(file);
-            next();
-          }
-        });
-      })();
-    });
-  };
-  console.log(path);
-
-  walk(path, function(err, results) {
-    if (err) throw err;
-    console.log(results);
-  });
-
-  //server.listen(8000);
-  //console.log("loaded!");
-            </code></pre>
-  				</section>
-
-          <section>
-  					<h3>Steve Hackbarth</h3>
-  					<pre><code class="hljs">
-const co = require("co");
-const { readdir, rename, stat } = require("mz/fs");
-const path = require("path");
-
-function unCsv (dirname) {
-  co(function *() {
-    const files = yield readdir(dirname);
-    for (file of files) {
-      if (path.extname(file) === ".csv") {
-        const oldName = path.resolve(dirname, file);
-        const newName = oldName.substring(0, oldName.length - 3) + "txt";
-        yield rename(oldName, newName);
-      }
-    }
-    console.log("success!");
-  }).catch((error) => {
-    console.error(error);
-  });
-}
-
-unCsv(path.resolve(__dirname, "my_dir"));
-            </code></pre>
-  				</section>
-          <section>
-  					<h3>Steve Hackbarth</h3>
-  					<pre><code class="hljs">
-const co = require("co");
-const { readdir, rename, stat } = require("mz/fs");
-const path = require("path");
-
-function unCsvRecursive (dirname) {
-  return new Promise((resolve, reject) => {
-    co(function *() {
-      const files = yield readdir(dirname);
-      for (file of files) {
-        const fullName = path.resolve(dirname, file);
-        const stats = yield stat(fullName);
-        if (stats.isDirectory()) {
-          yield unCsvRecursive(fullName);
-        } else if (path.extname(file) === ".csv") {
-          const newName = fullName.substring(0, fullName.length - 3) + "txt";
-          yield rename(fullName, newName);
-        }
-      }
-      resolve();
-    }).catch(reject);
-  });
-}
-
-unCsvRecursive(path.resolve(__dirname, "my_dir")).then(console.log, console.error);
-
             </code></pre>
   				</section>
         </section>
