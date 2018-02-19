@@ -198,29 +198,98 @@ function updateSizeOfItemInArray(state, action) {
   				</section>
           <section>
   					<h3></h3>
-  					<pre><code class="hljs">
+  					<pre><code class="hljs" style="max-height:1000px;width:1200px;margin-left:-200px;">
             </code></pre>
   				</section>
 
           <section>
   					<h3></h3>
-  					<pre><code class="hljs">
+  					<pre><code class="hljs" style="max-height:1000px;width:1200px;margin-left:-200px;">
             </code></pre>
   				</section>
 
           <section>
   					<h3></h3>
-  					<pre><code class="hljs">
+  					<pre><code class="hljs" style="max-height:1000px;width:1200px;margin-left:-200px;">
+function getVowels(word) {
+  return _.intersection(word.toLowerCase().split(""), "aeiouy".split(""));
+}
+
+function checkWord (state, action) {
+  const vowels = _.uniq(_.flatten(_.map(state.list.concat([action.word]), getVowels)));
+  if (vowels.length === 1) {
+    return _.assign({}, state, { list: state.list.concat([action.word]) });
+  }
+  return state;
+}
             </code></pre>
   				</section>
 
           <section>
-  					<h3></h3>
-  					<pre><code class="hljs">
+  					<pre><code class="hljs" style="max-height:1000px;width:1200px;margin-left:-200px;">
+describe("checkWord", () => {
+  let state;
+  beforeEach(() => {
+    state = { list: [] };
+  });
+
+  it("adds a new eunoic word", () => {
+    state = checkWord(state, { word: "foo" });
+    assert.deepEqual(state, { list: ["foo"] });
+  });
+
+  it("does not add a new non-eunoic word", () => {
+    state = checkWord(state, { word: "about" });
+    assert.deepEqual(state, { list: [] });
+  });
+
+  it("adds a eunoic word to a compatible list", () => {
+    state = { list: ["When", "Helen", "feels", "these", "stresses"] };
+    state = checkWord(state, { word: "fee" });
+    assert.include(state.list, "fee");
+  });
+
+  it("does not add a eunoic word to an incompatible list", () => {
+    state = { list: ["When", "Helen", "feels", "these", "stresses"] };
+    state = checkWord(state, { word: "foo" });
+    assert.notInclude(state.list, "foo");
+  });
+});
             </code></pre>
   				</section>
+
+
+          <section>
+  					<h3></h3>
+  					<pre><code class="hljs" style="max-height:1000px;width:1200px;margin-left:-200px;">
+function generateWords () {
+  const dict = fs.readFileSync("/usr/share/dict/words", "utf8");
+  const allWords = _.orderBy(dict.split("\n"), () => Math.random());
+  let state = { list: [] };
+  for (const word of allWords) {
+    state = checkWord(state, { word });
+    if (state.list.length >= 100) {
+      break;
+    }
+  }
+  return state.list;
+}
+
+            </code></pre>
+  				</section>
+
+          <section>
+            Ginni risp. Shii virginitis pilgrimism. Bilskirnir knights minis tink twirls.
+            Triplicist swigs mirths philhippic spivs inkings linksmith siskins thickwit schtiks.
+            Viki skirt filings skip dibs chippings. Vivl pigs. Briggs bink.
+            Phillipp whipstitch stinkbird cinching tiffish. Bring instincts jiggish ictic tibbit.
+            Thill. Cripps disbind glink gift birring girling. Nitti pricing.
+            Ziv gists instinct hildings chirking. Idhi whisting. Cdiz immis gimp pimpling.
+            <br><br>
+<a href="https://github.com/shackbarth/sharpen-your-saw/blob/master/eunoia.js">Link to eunoia.js</a>
+          </section>
+
         </section>
-
 			</div>
 
 		</div>
