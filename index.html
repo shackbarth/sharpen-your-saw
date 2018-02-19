@@ -67,17 +67,15 @@
             </div>
             <div class="fragment">
     					<pre><code class="hljs">
-function updateState (oldState, action) {
-  return someTransformation(oldState, action.releventPayload);
+function updateState (state, action) {
+  return someTransformation(state, action.releventPayload);
 }
               </code></pre>
             </div>
             <div class="fragment">
     					<pre><code class="hljs">
-function incrementState (oldState, action) {
-  return _.assign({}, state, {
-    counter: state.counter + action.incrementBy
-  });
+function incrementCounter (state, action) {
+  return _.assign({}, state, { counter: state.counter + 1 });
 }
               </code></pre>
             </div>
@@ -114,7 +112,7 @@ function fieldValueReducer(state, action) {
           </section>
 
           <section>
-            <h3>Mutable code</h3>
+            <h3>Mutative code</h3>
             <pre><code class="hljs">
 const oldState = { size: 2 };
 const newState = oldState;
