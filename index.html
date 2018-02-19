@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Sharpen Your Saw 4</title>
+		<title>Sharpen Your Saw 5</title>
 
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -29,7 +29,7 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h2>Sharpen Your Saw v5</h2>
+					<h2>Sharpen Your Saw 5</h2>
           <ol>
             <li class="fragment">The Presentation</li>
             <li class="fragment">The Challenge</li>
@@ -67,17 +67,15 @@
             </div>
             <div class="fragment">
     					<pre><code class="hljs">
-function updateState (oldState, action) {
-  return someTransformation(oldState, action.releventPayload);
+function updateState (state, action) {
+  return someTransformation(state, action.releventPayload);
 }
               </code></pre>
             </div>
             <div class="fragment">
     					<pre><code class="hljs">
-function incrementState (oldState, action) {
-  return _.assign({}, state, {
-    counter: state.counter + action.incrementBy
-  });
+function incrementCounter (state, action) {
+  return _.assign({}, state, { counter: state.counter + 1 });
 }
               </code></pre>
             </div>
@@ -114,7 +112,7 @@ function fieldValueReducer(state, action) {
           </section>
 
           <section>
-            <h3>Mutable code</h3>
+            <h3>Mutative code</h3>
             <pre><code class="hljs">
 const oldState = { size: 2 };
 const newState = oldState;
