@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Sharpen Your Saw 5</title>
+		<title>Sharpen Your Saw 6</title>
 
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -29,7 +29,7 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h2>Sharpen Your Saw 5</h2>
+					<h2>Sharpen Your Saw 6</h2>
           <ol>
             <li class="fragment">The Presentation</li>
             <li class="fragment">The Challenge</li>
@@ -38,250 +38,285 @@
         </section>
 
 				<section>
-					<h3>Redux</h3>
-          <div class="fragment">Library for managing application state</div>
-          <div class="fragment">Commonly paired with React</div>
+					<h3>The Joy of CLI</h3>
+          <div class="fragment">https://github.com/tj/commander.js</div>
+          <div class="fragment">https://github.com/yargs/yargs</div>
           <!-- poll audience -->
         </section>
 
 				<section>
   				<section>
-  					<h3>Beginning of the slides about React</h3>
-            <div class="fragment">Initial renders are easy. Mutating UI is hard.</div>
-            <div class="fragment">Pure functions are good. Side effects are bad.</div>
+  					<h3>The Command Line</h3>
+            <div class="fragment">
+    					<pre><code class="hljs">$ grep -r foo .</code></pre>
+            </div>
+            <div class="fragment">
+    					<pre><code class="hljs">$ grep --recursive foo .</code></pre>
+            </div>
+            <div class="fragment">
+    					<pre><code class="hljs">$ grep --recursive --exclude-dir node_modules foo .</code></pre>
+            </div>
 					</section>
 
-          <section>
-  					<h3>Write as if UI were a pure function of state</h3>
-            <div class="fragment">Lots of mutative magic under the hood</div>
-  				</section>
+  				<section>
+  					<h3>The Command Line and Node.JS</h3>
+            <div class="fragment">
+    					<pre><code class="hljs">
+// grep.js
+console.log(process.argv);
+              </code></pre>
+            </div>
+            <div class="fragment">
+    					<pre><code class="hljs">$ node grep.js --recursive --exclude-dir node_modules foo .</code></pre>
+            </div>
+            <div class="fragment">
+    					<pre><code class="hljs">
+[ 
+  '/usr/local/bin/node',
+  '/home/shackbarth/git/sharpen-your-saw/grep.js',
+  '--recursive',
+  '--exclude-dir',
+  'node_modules',
+  'foo',
+  '.' 
+]
+              </code></pre>
+            </div>
+          </section>
+          
+  				<section>
+  					<h3>Parsing all that stuff</h3>
+            <div class="fragment">
+    					<pre><code class="hljs">
+// grep.js
+const flags = [
+  { short: "-r", long: "--recursive", expectsParam: false },
+  { long: "--exclude-dir", expectsParam: true }
+];
+
+function expectsParam (flag) {
+  // TODO
+}
+
+const flagsObj = {};
+_.each(process.argv.slice(2), (token, tokenIndex) => {
+  if (matchesFlag(token) && expectsParam(token)) {
+    const parameter = process.argv[tokenIndex + 1];
+              </code></pre>
+            </div>
+					</section>
+  				<section>
+  					<h3>Parsing all that stuff</h3>
+            <pre><code class="hljs">npm install --save --save-exact commander</code></pre>
+
+            <div class="fragment">
+              https://github.com/tj/commander.js/blob/master/LICENSE
+            </div>
+            <div class="fragment">
+              https://twitter.com/tjholowaychuk
+            </div>
+					</section>
         </section>
+
 				<section>
   				<section>
-  					<h3>Application state</h3>
-            <div class="fragment">What if you could manage it with pure functions?</div>
-            <div class="fragment">
-    					<pre><code class="hljs">
-(oldState, action) => newState
-              </code></pre>
-            </div>
-            <div class="fragment">
-    					<pre><code class="hljs">
-function updateState (state, action) {
-  return someTransformation(state, action.releventPayload);
-}
-              </code></pre>
-            </div>
-            <div class="fragment">
-    					<pre><code class="hljs">
-function incrementCounter (state, action) {
-  return _.assign({}, state, { counter: state.counter + 1 });
-}
-              </code></pre>
-            </div>
-					</section>
+  					<h3>Commander.js</h3>
+          </section>
   				<section>
-  					<h3>Before</h3>
-  					<pre><code class="hljs">
-handleChange(event) {
-  this.setState({ fieldValue: event.target.value });
-}
+  					<h3>Commander.js</h3>
+            <pre><code class="hljs">
+var program = require('commander');
+
+program
+  .version('0.1.0')
+  .option('-p, --peppers', 'Add peppers')
+  .option('-P, --pineapple', 'Add pineapple')
+  .option('-b, --bbq-sauce', 'Add bbq sauce')
+  .option('-c, --cheese [type]', 'Add cheese [marble]', 'marble')
+  .parse(process.argv);
             </code></pre>
-  					<h3>After</h3>
-  					<pre><code class="hljs">
-handleChange(event) {
-  this.props.dispatch({
-    type: "SET_FIELD_VALUE",
-    value: event.target.value
-  });
-}
+          </section>
+  				<section>
+  					<h3>Commander.js</h3>
+            <pre><code class="hljs">
+const program = require("commander");
+
+program
+  .option("-r, --recursive", "Recursive")
+  .option("--exclude-dir &lt;dir&gt;", "Exclude directory")
+  .parse(process.argv);
+
+console.log(program.recursive);
+console.log(program.excludeDir);
+console.log(program.args);
             </code></pre>
-  					<pre><code class="hljs">
-function fieldValueReducer(state, action) {
-  return _.assign({}, state, { fieldValue: action.value });
-}
+            <div class="fragment">
+            <pre><code class="hljs">
+$ node grep.js --recursive --exclude-dir node_modules foo .
+true
+node_modules
+[ 'foo', '.' ]
             </code></pre>
-					</section>
+            </div>
+          </section>
+  				<section>
+  					<h3>Commander.js</h3>
+            <pre><code class="hljs">$ node grep.js --help</code></pre>
+            <div class="fragment">
+            <pre><code class="hljs">
+Usage: grep [options]
+
+Options:
+  -r, --recursive      Recusive
+  --exclude-dir &lt;dir&gt;  Exclude directory
+  -h, --help           output usage information
+            </code></pre>
         </section>
 
-				<section>
   				<section>
-  					<h3>Two Gripes</h3>
-            <div class="fragment">1. Too much boilerplate</div>
-            <div class="fragment">2. The gotcha: the reducer code has to be immutable</div>
-          </section>
-
-          <section>
-            <h3>Mutative code</h3>
+  					<h3>Commander.js</h3>
             <pre><code class="hljs">
-const oldState = { size: 2 };
-const newState = oldState;
-newState.size = 4;
-oldState === newState
-// true
-            </code></pre>
-          </section>
+const program = require("commander");
 
-          <section>
-            <h3>Immutable code</h3>
-            <pre><code class="hljs">
-const oldState = { size: 2 };
-const newState = _.assign({}, oldState, { size: 4 });
-oldState === newState
-// false
-            </code></pre>
-          </section>
+program
+  .option("-n, --line-number &lt;num&gt;", "The line num", parseInt)
+  .parse(process.argv);
 
-          <section>
-            <h3>Immutable code in Redux</h3>
-            <pre><code class="hljs">
-function updateSize(state, action) {
-  return _.assign({}, state, { size: action.size });
-}
+console.log(program.lineNumber, typeof program.lineNumber);
             </code></pre>
-          </section>
-
-          <section>
-            <h3>Immutable code in Redux</h3>
+            <div class="fragment">
             <pre><code class="hljs">
-function updateSizeOfItemInArray(state, action) {
-  return _.assign({}, state, {
-    itemList: [
-      ...state.itemList.slice(0, action.index),
-      _.assign({}, state.itemList[action.index], {
-        size: action.size
-      }),
-      ...state.itemList.slice(action.index + 1)
-    ]
-  });
-}
+$ node grep.js -n 17
+17 'number'
             </code></pre>
+            </div>
           </section>
-
-          <section>
-            <h3>Immutable code in Redux</h3>
-            <pre><code class="hljs">
-function updateSizeOfItemInArray(state, action) {
-  const newState = _.cloneDeep(state);
-  newState[action.index].size = action.size;
-  return newState;
-}
-            </code></pre>
-          </section>
-        </section>
       </section>
+
+      <section>
+        <section>
+					<h3>Prompting for input</h3>
+            <div class="fragment">
+              <pre><code class="hljs">
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+rl.question('What do you think of Node.js? ', (answer) => {
+  // TODO: Log the answer in a database
+  console.log(`Thank you for your valuable feedback: ${answer}`);
+
+  rl.close();
+});
+          </code></pre>
+        </div>
+        </section>
+
+        <section>
+            https://www.npmjs.com/search?q=prompt
+            <div class="fragment">
+              <br />
+              https://github.com/moxystudio/node-promptly/blob/master/LICENSE
+            </div>
+            <div class="fragment">
+              <br />
+              https://dev.to/acostalima
+            </div>
+        </section>
+
+        <section>
+          <pre><code class="hljs">
+const { prompt } = require("promptly");
+
+(async function () {
+  const answer = await prompt("What do you think of Node.js?");
+  console.log("Thanks", answer);
+})();
+          </code></pre>
+        </section>
+
+      </section>
+
+
+      <section>
+        <section>
+					<h3>I do not need the command line</h3>
+        </section>
+        <section>
+          route-handler.js
+          <pre><code class="hljs" style="font-size: 18px;">
+const _ = require("lodash");
+const path = require("path");
+const cp = require("child_process");
+
+function handle(req, res) {
+  const args = _.compact([
+    req.query.isRecurse ? "-r" : null, 
+    "--exclude-dir", 
+    "node_modules", 
+    req.query.searchTerm, 
+    "."
+  ]);
+  const worker = cp.fork(path.resolve(__dirname, "./grep.js"), args);
+}
+          </code></pre>
+        </section>
+        <section>
+          grep.js
+          <pre><code class="hljs" style="font-size: 18px;">
+const _ = require("lodash");
+const program = require("commander");
+const grepEngine = require("./grep-engine");
+
+program
+  .option("-r, --recursive", "Recusive")
+  .option("--exclude-dir &lt;dir&gt;", "Exclude directory")
+  .parse(process.argv);
+
+const options = _.pick(program, ["recursive", "excludeDir", "args"]);
+grepEngine(options);
+          </code></pre>
+        </section>
+        <section>
+          grep-engine.js
+          <pre><code class="hljs" style="font-size: 18px;">
+async function doGrep(options) {
+  console.log(options);
+  // TODO
+}
+
+module.exports = doGrep;
+          </code></pre>
+        </section>
+
+
+      </section>
+
       <section>
         <section>
 					<h3>Part 2: The Challenge</h3>
         https://shackbarth.github.io/sharpen-your-saw
         </section>
-        <section>
-          <img src="http://static.poetryfoundation.org/o/harriet/2015/08/Eunoia-by-Christian-Bok-001.jpg" />
-				</section>
-        <section>
-					<h3>Eunoia</h3>
-          Crooks who con folks go door to door to show folks lots of books on how to boost longshot growth of hot-shot stocks or low-cost bonds. Crooks who do so fob off fool's gold onto fools... most of whom own posh co-op condos.
-				</section>
-
-        <section>
-					<h3>Eunoia</h3>
-          Scots from hogtowns or cowtowns work from cockcrow to moondown -- to chop down woodlots, to plow down cornrows.
-				</section>
-        <section>
-					<h3>Eunoia</h3>
-          Ku-klux cults kung-fu punch Ubu.
-				</section>
       </section>
+
       <section>
           <section>
   					<h3>Part 3: Show and Tell</h3>
   				</section>
 
           <section>
-            <a href="https://gist.github.com/codingcampbell/ec72f930a09acd15f4900b0732f0b7c0">Matt Campbell</a>
+
   				</section>
 
           <section>
   					<h3></h3>
-  					<pre><code class="hljs" style="max-height:1000px;width:1200px;margin-left:-200px;">
-function getVowels(word) {
-  return _.intersection(word.toLowerCase().split(""), "aeiouy".split(""));
-}
-
-function checkWord (state, action) {
-  const vowels = _.uniq(_.flatten(_.map(state.list.concat([action.word]), getVowels)));
-  if (vowels.length === 1) {
-    return _.assign({}, state, { list: state.list.concat([action.word]) });
-  }
-  return state;
-}
-            </code></pre>
-  				</section>
-
-          <section>
-  					<pre><code class="hljs" style="max-height:1000px;width:1200px;margin-left:-200px;">
-describe("checkWord", () => {
-  let state;
-  beforeEach(() => {
-    state = { list: [] };
-  });
-
-  it("adds a new eunoic word", () => {
-    state = checkWord(state, { word: "foo" });
-    assert.deepEqual(state, { list: ["foo"] });
-  });
-
-  it("does not add a new non-eunoic word", () => {
-    state = checkWord(state, { word: "about" });
-    assert.deepEqual(state, { list: [] });
-  });
-
-  it("adds a eunoic word to a compatible list", () => {
-    state = { list: ["When", "Helen", "feels", "these", "stresses"] };
-    state = checkWord(state, { word: "fee" });
-    assert.include(state.list, "fee");
-  });
-
-  it("does not add a eunoic word to an incompatible list", () => {
-    state = { list: ["When", "Helen", "feels", "these", "stresses"] };
-    state = checkWord(state, { word: "foo" });
-    assert.notInclude(state.list, "foo");
-  });
-});
-            </code></pre>
-  				</section>
-
-
-          <section>
-  					<h3></h3>
-  					<pre><code class="hljs" style="max-height:1000px;width:1200px;margin-left:-200px;">
-function generateWords () {
-  const dict = fs.readFileSync("/usr/share/dict/words", "utf8");
-  const allWords = _.orderBy(dict.split("\n"), () => Math.random());
-  let state = { list: [] };
-  for (const word of allWords) {
-    state = checkWord(state, { word });
-    if (state.list.length >= 100) {
-      break;
-    }
-  }
-  return state.list;
-}
+            <pre><code class="hljs" style="max-height:1000px;width:1200px;margin-left:-200px;">
 
             </code></pre>
   				</section>
-
-          <section>
-            Ginni risp. Shii virginitis pilgrimism. Bilskirnir knights minis tink twirls.
-            Triplicist swigs mirths philhippic spivs inkings linksmith siskins thickwit schtiks.
-            Viki skirt filings skip dibs chippings. Vivl pigs. Briggs bink.
-            Phillipp whipstitch stinkbird cinching tiffish. Bring instincts jiggish ictic tibbit.
-            Thill. Cripps disbind glink gift birring girling. Nitti pricing.
-            Ziv gists instinct hildings chirking. Idhi whisting. Cdiz immis gimp pimpling.
-            <br><br>
-<a href="https://github.com/shackbarth/sharpen-your-saw/blob/master/eunoia.js">Link to eunoia.js</a>
-          </section>
-
         </section>
 			</div>
 
