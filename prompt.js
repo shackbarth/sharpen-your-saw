@@ -1,3 +1,4 @@
+/*
 const readline = require('readline');
 
 const rl = readline.createInterface({
@@ -11,13 +12,11 @@ rl.question('What do you think of Node.js? ', (answer) => {
 
   rl.close();
 });
+*/
 
-
-/*
 const { prompt } = require("promptly");
 
 (async function () {
-  const pass = await prompt("What is the password?");
-  console.log(pass);
+  const answer = await prompt("What do you think of Node.js?");
+  console.log("Thank you for your valuable feedback: ", answer);
 })();
-*/
