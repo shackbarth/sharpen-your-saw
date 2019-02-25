@@ -63,13 +63,6 @@ based on dark.css by Ivan Sagalaev
   color: #cc9393;
 }
 
-.hljs-addition,
-.hljs-comment,
-.hljs-quote,
-.hljs-meta {
-  color: #7f9f7f;
-}
-
 
 .hljs-emphasis {
   font-style: italic;
