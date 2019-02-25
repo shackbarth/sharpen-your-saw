@@ -261,6 +261,7 @@ function handle(req, res) {
     "."
   ]);
   const worker = cp.fork(path.resolve(__dirname, "./grep.js"), args);
+  res.sendStatus(200);
 }
           </code></pre>
         </section>
