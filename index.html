@@ -253,10 +253,10 @@ const cp = require("child_process");
 
 function handle(req, res) {
   const args = _.compact([
-    req.query.isRecurse ? "-r" : null, 
+    req.body.isRecurse ? "-r" : null, 
     "--exclude-dir", 
     "node_modules", 
-    req.query.searchTerm, 
+    req.body.searchTerm, 
     "."
   ]);
   const worker = cp.fork(path.resolve(__dirname, "./grep.js"), args);
