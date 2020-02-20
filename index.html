@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Sharpen Your Saw 6</title>
+		<title>Sharpen Your Saw 7</title>
 
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -55,32 +55,30 @@
   				<section>
   					<h3>Things Happen</h3>
             <div>
-    					<pre><code class="hljs">> new Date("2020-02-04T13:59:42.753Z")
-Tue Feb 04 2020 08:59:42 GMT-0500 (Eastern Standard Time)
+    					<pre><code class="hljs">> new Date("2020-01-08T19:47:00.000Z")
+Wed Jan 08 2020 14:47:00 GMT-0500 (Eastern Standard Time)
 
 // using moment.js
-> moment("2020-02-04T13:59:42.753Z").format("h:mm a MMM DD, YYYY") 
-"8:59 am Feb 04, 2020"
+> moment("2020-01-08T19:47:00.000Z").format("h:mm a MMM DD, YYYY") 
+"2:47 pm Jan 08, 2020"
 
 // using date-fns
-> format(parseISO("2020-02-04T13:59:42.753Z"), "h:mm a MMM dd, yyyy") 
-"8:59 AM Feb 04, 2020"</code></pre>
+> format(parseISO("2020-01-08T19:47:00.000Z"), "h:mm a MMM dd, yyyy") 
+"2:47 PM Jan 08, 2020"</code></pre>
             </div>
 					</section>
 
   				<section>
   					<h3>Things Happen In Oslo</h3>
             <div>
-    					<pre><code class="hljs">> new Date("2020-02-04T13:59:42.753Z")
-Tue Feb 04 2020 14:59:42 GMT+0100 (Central European Standard Time)
+    					<pre><code class="hljs">> new Date("2020-01-08T19:47:00.000Z")
+Wed Jan 08 2020 20:47:00 GMT+0100 (Central European Standard Time)
 
-// using moment.js
-> moment("2020-02-04T13:59:42.753Z").format("h:mm a MMM DD, YYYY") 
-"2:59 pm Feb 04, 2020"
+> moment("2020-01-08T19:47:00.000Z").format("h:mm a MMM DD, YYYY") // using moment.js
+"8:47 pm Jan 08, 2020"
 
-// using date-fns
-> format(parseISO("2020-02-04T13:59:42.753Z"), "h:mm a MMM dd, yyyy") 
-"2:59 PM Feb 04, 2020"</code></pre>
+> format(parseISO("2020-01-08T19:47:00.000Z"), "h:mm a MMM dd, yyyy") // using date-fns
+"8:47 PM Jan 08, 2020"</code></pre>
             </div>
 					</section>
 
@@ -130,6 +128,26 @@ console.log(moment(new Date("2020-01-01")).format("MMMM Do YYYY"));
 console.log(new Date("2020-01-01").toString());
 // -> Tue Dec 31 2019 19:00:00 GMT-0500 (Eastern Standard Time)</code></pre>
           </section>
+      </section>
+
+      <section>
+        <section>
+          <h3>Things to remember</h3>
+<div class="fragment">
+  <ul><li>Javascript always considers dates to be particular moments in time</li></ul>
+</div>
+<div class="fragment">
+  <ul><li>They're stored as UTC but most methods automatically localize for you</li></ul>
+</div>
+<div class="fragment">
+  <ul><li>Not every date is really something that happened at a particular moment in time</li></ul>
+</div>
+  
+<div class="fragment">
+  <ul><li>In these cases, the Javascript Date object often supplies too much or erroneous information
+  </li></ul>
+</div>
+        </section>
       </section>
 
       <section>
