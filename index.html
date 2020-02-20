@@ -29,7 +29,7 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h2>Sharpen Your Saw 6</h2>
+					<h2>Sharpen Your Saw 7</h2>
           <ol>
             <li class="fragment">The Presentation</li>
             <li class="fragment">The Challenge</li>
@@ -38,261 +38,98 @@
         </section>
 
 				<section>
-					<h3>The Joy of CLI</h3>
-          <div class="fragment">https://github.com/tj/commander.js</div>
-          <div class="fragment">https://github.com/yargs/yargs</div>
-          <!-- poll audience -->
+					<h3>Working with dates and timezones in Javascript</h3>
+					<h4>A Survival Guide</h4>
+          <div class="fragment">https://github.com/moment/moment</div>
+          <div class="fragment">https://github.com/date-fns/date-fns</div>
         </section>
 
 				<section>
   				<section>
-  					<h3>The Command Line</h3>
+  					<h3>Things Happen</h3>
             <div class="fragment">
-    					<pre><code class="hljs">$ grep -r foo .</code></pre>
-            </div>
-            <div class="fragment">
-    					<pre><code class="hljs">$ grep --recursive foo .</code></pre>
-            </div>
-            <div class="fragment">
-    					<pre><code class="hljs">$ grep --recursive --exclude-dir node_modules foo .</code></pre>
-            </div>
-					</section>
-
-  				<section>
-  					<h3>The Command Line and Node.JS</h3>
-            <div class="fragment">
-    					<pre><code class="hljs">
-// grep.js
-console.log(process.argv);
-              </code></pre>
-            </div>
-            <div class="fragment">
-    					<pre><code class="hljs">$ node grep.js --recursive --exclude-dir node_modules foo .</code></pre>
-            </div>
-            <div class="fragment">
-    					<pre><code class="hljs">
-[ 
-  '/usr/local/bin/node',
-  '/home/shackbarth/git/sharpen-your-saw/grep.js',
-  '--recursive',
-  '--exclude-dir',
-  'node_modules',
-  'foo',
-  '.' 
-]
-              </code></pre>
+    					<img src="./tweet-small.png" />
             </div>
           </section>
           
   				<section>
-  					<h3>Parsing all that stuff</h3>
-            <div class="fragment">
-    					<pre><code class="hljs">
-// grep.js
-const flags = [
-  { short: "-r", long: "--recursive", expectsParam: false },
-  { long: "--exclude-dir", expectsParam: true }
-];
+  					<h3>Things Happen</h3>
+            <div>
+    					<pre><code class="hljs">> new Date("2020-02-04T13:59:42.753Z")
+Tue Feb 04 2020 08:59:42 GMT-0500 (Eastern Standard Time)
 
-function expectsParam (flag) {
-  // TODO
-}
+// using moment.js
+> moment("2020-02-04T13:59:42.753Z").format("h:mm a MMM DD, YYYY") 
+"8:59 am Feb 04, 2020"
 
-const flagsObj = {};
-_.each(process.argv.slice(2), (token, tokenIndex) => {
-  if (matchesFlag(token) && expectsParam(token)) {
-    const parameter = process.argv[tokenIndex + 1];
-              </code></pre>
+// using date-fns
+> format(parseISO("2020-02-04T13:59:42.753Z"), "h:mm a MMM dd, yyyy") 
+"8:59 AM Feb 04, 2020"</code></pre>
             </div>
 					</section>
+
   				<section>
-  					<h3>Parsing all that stuff</h3>
-            <pre><code class="hljs">npm install --save --save-exact commander</code></pre>
+  					<h3>Things Happen In Oslo</h3>
+            <div>
+    					<pre><code class="hljs">> new Date("2020-02-04T13:59:42.753Z")
+Tue Feb 04 2020 14:59:42 GMT+0100 (Central European Standard Time)
 
-            <div class="fragment">
-              https://github.com/tj/commander.js/blob/master/LICENSE
-            </div>
-            <div class="fragment">
-              https://twitter.com/tjholowaychuk
+// using moment.js
+> moment("2020-02-04T13:59:42.753Z").format("h:mm a MMM DD, YYYY") 
+"2:59 pm Feb 04, 2020"
+
+// using date-fns
+> format(parseISO("2020-02-04T13:59:42.753Z"), "h:mm a MMM dd, yyyy") 
+"2:59 PM Feb 04, 2020"</code></pre>
             </div>
 					</section>
+
         </section>
 
 				<section>
   				<section>
-  					<h3>Commander.js</h3>
-          </section>
-  				<section>
-  					<h3>Commander.js</h3>
-            <pre><code class="hljs">
-var program = require('commander');
-
-program
-  .version('0.1.0')
-  .option('-p, --peppers', 'Add peppers')
-  .option('-P, --pineapple', 'Add pineapple')
-  .option('-b, --bbq-sauce', 'Add bbq sauce')
-  .option('-c, --cheese [type]', 'Add cheese [marble]', 'marble')
-  .parse(process.argv);
-            </code></pre>
-          </section>
-  				<section>
-  					<h3>Commander.js</h3>
-            <pre><code class="hljs">
-const program = require("commander");
-
-program
-  .option("-r, --recursive", "Recursive")
-  .option("--exclude-dir &lt;dir&gt;", "Exclude directory")
-  .parse(process.argv);
-
-console.log(program.recursive);
-console.log(program.excludeDir);
-console.log(program.args);
-            </code></pre>
+  					<h3>Why Resist Localization?</h3>
+            <div class="fragment">Calendar Dates</div>
+            <div class="fragment">Wall Time</div>
             <div class="fragment">
-            <pre><code class="hljs">
-$ node grep.js --recursive --exclude-dir node_modules foo .
-true
-node_modules
-[ 'foo', '.' ]
-            </code></pre>
+              <pre><code class="hljs">> "Steve thinks 4:30 is too early"
+"Steve thinks 4:30 is too early"
+
+> moment.localizeThisSomehow("Steve thinks 4:30 is too early")
+Uncaught TypeError: moment.localizeThisSomehow is not a function</code></pre>
             </div>
-          </section>
-  				<section>
-  					<h3>Commander.js</h3>
-            <pre><code class="hljs">$ node grep.js --help</code></pre>
-            <div class="fragment">
-            <pre><code class="hljs">
-Usage: grep [options]
 
-Options:
-  -r, --recursive      Recusive
-  --exclude-dir &lt;dir&gt;  Exclude directory
-  -h, --help           output usage information
-            </code></pre>
-        </section>
-
-  				<section>
-  					<h3>Commander.js</h3>
-            <pre><code class="hljs">
-const program = require("commander");
-
-program
-  .option("-n, --line-number &lt;num&gt;", "The line num", parseInt)
-  .parse(process.argv);
-
-console.log(program.lineNumber, typeof program.lineNumber);
-            </code></pre>
-            <div class="fragment">
-            <pre><code class="hljs">
-$ node grep.js -n 17
-17 'number'
-            </code></pre>
-            </div>
           </section>
       </section>
 
-      <section>
-        <section>
-					<h3>Prompting for input</h3>
+				<section>
+  				<section>
+  					<h3>Here's something to ruin your day</h3>
             <div class="fragment">
-              <pre><code class="hljs">
-const readline = require('readline');
+              <pre><code class="hljs">console.log(new Date("2020-01-01").toString());
+// -> Tue Dec 31 2019 19:00:00 GMT-0500 (Eastern Standard Time)</code></pre></div>
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+<div class="fragment"><pre><code class="hljs">console.log(format(new Date("2020-01-01"), "MMMM do yyyy"));
+// -> December 31st 2019</code></pre></div>
 
-rl.question('What do you think of Node.js? ', (answer) => {
-  // TODO: Log the answer in a database
-  console.log(`Thank you for your valuable feedback: ${answer}`);
+<div class="fragment"><pre><code class="hljs">// moment magically fixes this problem for you
+console.log(moment("2020-01-01").format("MMMM Do YYYY"));
+// -> January 1st 2020</code></pre></div>
 
-  rl.close();
-});
-          </code></pre>
-        </div>
-        </section>
+<div class="fragment"><pre><code class="hljs">// ... unless you invoke with a date and not a string
+console.log(moment(new Date("2020-01-01")).format("MMMM Do YYYY"));
+// -> December 31st 2019</code></pre></div>
 
-        <section>
-            https://www.npmjs.com/search?q=prompt
-            <div class="fragment">
-              <br />
-              https://github.com/moxystudio/node-promptly/blob/master/LICENSE
-            </div>
-            <div class="fragment">
-              <br />
-              https://dev.to/acostalima
-            </div>
-        </section>
+          </section>
 
-        <section>
-          <pre><code class="hljs">
-const { prompt } = require("promptly");
+  				<section>
+              <h3>Here's something to ruin your day v2</h3>
+              <pre><code class="hljs">console.log(new Date("2020-01-01").toISOString());
+// -> 2020-01-01T00:00:00.000Z
 
-(async function () {
-  const answer = await prompt("What do you think of Node.js?");
-  console.log("Thank you for your valuable feedback: ", answer);
-})();
-          </code></pre>
-        </section>
-
-      </section>
-
-
-      <section>
-        <section>
-					<h3>I do not need the command line</h3>
-        </section>
-        <section>
-          route-handler.js
-          <pre><code class="hljs" style="font-size: 18px;">const _ = require("lodash");
-const path = require("path");
-const cp = require("child_process");
-
-function handle(req, res) {
-  const args = _.compact([
-    req.body.isRecurse ? "-r" : null, 
-    "--exclude-dir", 
-    "node_modules", 
-    req.body.searchTerm, 
-    "."
-  ]);
-  const worker = cp.fork(path.resolve(__dirname, "./grep.js"), args);
-  res.sendStatus(200);
-}
-          </code></pre>
-        </section>
-        <section>
-          grep.js
-          <pre><code class="hljs" style="font-size: 18px;">
-const _ = require("lodash");
-const program = require("commander");
-const grepEngine = require("./grep-engine");
-
-program
-  .option("-r, --recursive", "Recusive")
-  .option("--exclude-dir &lt;dir&gt;", "Exclude directory")
-  .parse(process.argv);
-
-const options = _.pick(program, ["recursive", "excludeDir", "args"]);
-grepEngine(options);
-          </code></pre>
-        </section>
-        <section>
-          grep-engine.js
-          <pre><code class="hljs" style="font-size: 18px;">
-async function doGrep(options) {
-  console.log(options);
-  // TODO
-}
-
-module.exports = doGrep;
-          </code></pre>
-        </section>
-
-
+console.log(new Date("2020-01-01").toString());
+// -> Tue Dec 31 2019 19:00:00 GMT-0500 (Eastern Standard Time)</code></pre>
+          </section>
       </section>
 
       <section>
@@ -308,122 +145,8 @@ module.exports = doGrep;
   				</section>
 
           <section>
-  					<h5>Blaine</h5>
+  					<h5></h5>
             <pre><code class="hljs" style="max-height:550px;width:1200px;margin-left:-200px;">
-'use strict';
-
-const rn = require('random-number');
-const program = require('commander');
-const promptly = require('promptly');
-
-program
-  .version('0.0.1')
-  .option('-d, --digit <n>', parseInt)
-  .parse(process.argv);
-
-
-(async function() {
-
-  const target = rn({
-    min: 100,
-    max: 999,
-    integer: true
-  });
-  while(true) {
-    const guess = await promptly.prompt('What\'s your guess?');
-    const result = evaluateGuess(guess, target);
-  } 
-  console.log(result);
-})()
-
-function splitNumber(number) {
-  const string = String(number)
-  return [
-    string[0],
-    string[1],
-    string[2]
-  ]
-}
-
-function evaluateGuess(guess, target) {
-  console.log(guess);
-
-  const guessDigits = splitNumber(guess);
-  const targetDigits = splitNumber(target);
-
-  const guessQuality = [];
-  // check each number in guess against number in
-  // target
-  guessDigits.forEach(function(guess, guessIndex) {
-    const guessInTargetIndex = targetDigits.findIndex((item => item == guess));
-    if (guessInTargetIndex != -1) {
-      if (guessIndex == guessInTargetIndex) {
-        guessQuality.push({
-          number: guess,
-          quality: 'Perfect'
-        })
-      } else {
-        guessQuality.push({
-          number: guess,
-          quality: 'Good'
-        })
-      }
-    } else {
-      guessQuality.push({
-        number: guess,
-        quality: 'Bad'
-      });
-    }
-  });
-
-  return guessQuality
-}
-
-
-
-            </code></pre>
-  				</section>
-          <section>
-  					<h5>Steve H.</h5>
-            <pre><code class="hljs" style="max-height:550px;width:1200px;margin-left:-200px;">
-const { prompt } = require("promptly");
-const _ = require("lodash");
-const program = require("commander");
-
-program
-  .option("-d, --digits &lt;num&gt;", "The digits", parseInt)
-  .parse(process.argv);
-
-(async function() {
-  const digits = program.digits;
-  const secret = String(_.random(Math.pow(10, digits - 1), Math.pow(10, digits)));
-  while (true) {
-    const guess = await prompt("What is your guess?");
-    let perfect = 0;
-    let good = 0;
-    let bad = 0;
-    if (guess.length !== digits) {
-      console.log(`Your guess must have ${digits} digits`);
-      continue;
-    }
-    for (let i = 0; i < digits; i++) {
-      if (secret[i] === guess[i]) {
-        perfect++;
-      } else if (_.includes(secret, guess[i])) {
-        good++;
-      } else {
-        bad++;
-      }
-    }
-    if (perfect === digits) {
-      console.log("Got it!");
-      break;
-    }
-    console.log(`${perfect} perfect`);
-    console.log(`${good} good`);
-    console.log(`${bad} bad`);
-  }
-})();
             </code></pre>
   				</section>
         </section>

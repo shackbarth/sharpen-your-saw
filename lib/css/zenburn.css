@@ -11,6 +11,9 @@ based on dark.css by Ivan Sagalaev
   padding: 0.5em;
   background: #3f3f3f;
   color: #dcdcdc;
+  width: 1000px;
+  margin-left:-200px;
+  font-size: 20px;
 }
 
 .hljs-keyword,
