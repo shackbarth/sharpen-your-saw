@@ -74,10 +74,12 @@ Wed Jan 08 2020 14:47:00 GMT-0500 (Eastern Standard Time)
     					<pre><code class="hljs">> new Date("2020-01-08T19:47:00.000Z")
 Wed Jan 08 2020 20:47:00 GMT+0100 (Central European Standard Time)
 
-> moment("2020-01-08T19:47:00.000Z").format("h:mm a MMM DD, YYYY") // using moment.js
+// using moment.js
+> moment("2020-01-08T19:47:00.000Z").format("h:mm a MMM DD, YYYY") 
 "8:47 pm Jan 08, 2020"
 
-> format(parseISO("2020-01-08T19:47:00.000Z"), "h:mm a MMM dd, yyyy") // using date-fns
+// using date-fns
+> format(parseISO("2020-01-08T19:47:00.000Z"), "h:mm a MMM dd, yyyy") 
 "8:47 PM Jan 08, 2020"</code></pre>
             </div>
 					</section>
